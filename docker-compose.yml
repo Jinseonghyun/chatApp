@@ -5,19 +5,21 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - mongo:/data    # mongo라는 Docker 볼륨을 컨테이너의 /data 디렉터리에 마운트한다는 의미입니다. 이를 통해 데이터가 컨테이너가 삭제되어도 지속
+      - mongo:/data # 이 설정은 Docker 볼륨을 /data 디렉토리에 마운트하여, 컨테이너가 삭제되더라도 데이터를 유지하도록 합니다.
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_USERNAME=jin
       - MONGO_INITDB_ROOT_PASSWORD=1234
+
   mongo-express:
     image: mongo-express
     container_name: mongo_express
-    restart: always    # 컨테이너가 중지되거나 실패할 경우 자동으로 재시작하도록 설정
+    restart: always # 컨테이너가 중지되거나 실패할 경우 자동으로 다시 시작하도록 설정
     ports:
       - 8081:8081
     environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=1234
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=jin  # MongoDB 서비스와 일치하도록 'root' 사용
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=1234  # MongoDB 서비스의 비밀번호와 일치해야 함
       - ME_CONFIG_MONGODB_SERVER=mongodb
+
 volumes:
-  mongo: {}  # mongo라는 이름의 Docker 볼륨을 정의합니다. 이는 mongodb 서비스에서 데이터가 저장되는 곳
+  mongo: {} # Mongo라는 이름의 Docker 볼륨을 정의하여, MongoDB 데이터가 이곳에 저장됩니다.
